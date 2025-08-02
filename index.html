@@ -291,14 +291,10 @@
 
             const currentURL = window.location.href;
             let redirectTo = decodeURIComponent(currentURL.split('redirect_to=')[1] || '');
-            const language = navigator.language || navigator.userLanguage;
-            const isRussian = language.startsWith('ru');
 
-            const logoText = isRussian ? '🚀 Перенаправление' : '🚀 Redirecting';
-            const buttonText = isRussian ? 'Нажмите для продолжения' : 'Click to Continue';
-            const instructionsText = isRussian 
-                ? 'Автоматическое перенаправление через {seconds} секунд.\nЕсли этого не произошло, нажмите на кнопку выше.'
-                : 'Automatic redirect in {seconds} seconds.\nIf nothing happens, please click the button above.';
+            const logoText = '🚀 Перенаправление';
+            const buttonText = 'Нажмите для продолжения';
+            const instructionsText = 'Автоматическое перенаправление через {seconds} секунд.\nЕсли этого не произошло, нажмите на кнопку выше.';
 
             document.getElementById('logo').innerText = logoText;
             document.getElementById('redirectLink').innerText = buttonText;
@@ -324,8 +320,7 @@
                     }
                 }, 1000);
             } else {
-                document.getElementById('instructions').innerText = 
-                    isRussian ? 'Не указана ссылка для перенаправления.' : 'No redirect link specified.';
+                document.getElementById('instructions').innerText = 'Не указана ссылка для перенаправления.';
                 document.querySelector('.loading-indicator').style.display = 'none';
             }
         });
@@ -333,16 +328,16 @@
 </head>
 <body>
     <div class="container">
-        <div id="logo" class="logo">🚀 Redirecting</div>
+        <div id="logo" class="logo">🚀 Перенаправление</div>
         <a id="redirectLink" class="redirect-button" href="#" target="_blank">
-            Click to Continue
+            Нажмите для продолжения
         </a>
         <div class="loading-indicator">
             <div class="spinner"></div>
-            <span>Redirecting in <span id="countdown" class="countdown">5</span> seconds...</span>
+            <span>Перенаправление через <span id="countdown" class="countdown">5</span> секунд...</span>
         </div>
-        <p id="instructions" class="instructions">Automatic redirect in 5 seconds.
-If nothing happens, please click the button above.</p>
+        <p id="instructions" class="instructions">Автоматическое перенаправление через 5 секунд.
+Если этого не произошло, нажмите на кнопку выше.</p>
     </div>
 </body>
 </html>
