@@ -85,7 +85,7 @@
             const instructionsEl = document.getElementById('instructions');
             const update = () => {
                 if (countdownEl) countdownEl.textContent = String(countdown);
-                if (instructionsEl) instructionsEl.textContent = `Автоматическое открытие через ${countdown} секунд.\nЕсли этого не произошло, нажмите «Открыть ссылку».`;
+                if (instructionsEl) instructionsEl.textContent = `Если этого не произошло, нажмите «Открыть ссылку».`;
             };
             update();
             const timer = setInterval(() => {
