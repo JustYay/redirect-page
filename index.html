@@ -40,7 +40,6 @@
                             <span>Перенаправление через <span id="countdown" style="color:var(--primary-color);font-weight:800;">5</span> сек…</span>
                         </div>
                         <p id="instructions" style="margin-top:10px;color:var(--text-secondary);white-space:pre-line;">Автоматическое открытие через 5 секунд.\nЕсли этого не произошло, нажмите «Открыть ссылку».</p>
-                        <p id="urlPreview" style="margin-top:10px;color:var(--text-secondary);word-break:break-all;"></p>
                     </div>
                 </div>
             </section>
@@ -54,7 +53,6 @@
         setupTelegram();
 
         const finalUrl = resolveRedirectUrl();
-        document.getElementById('urlPreview').textContent = finalUrl ? finalUrl : '';
 
         const open = () => safeOpen(finalUrl);
         document.getElementById('openBtn').addEventListener('click', open);
