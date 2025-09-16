@@ -125,11 +125,11 @@
                 if (/^[A-Za-z0-9+/=]+$/.test(raw) && raw.length % 4 === 0) {
                     try { raw = atob(raw); } catch {}
                 }
-                // Безопасные схемы
-                const allowedSchemes = ['https:', 'http:', 'itms-apps:', 'itms-appss:', 'market:', 'intent:'];
+                // Блокируем только опасные схемы; кастомные (например, happ:) допускаем
+                const blockedSchemes = ['javascript:', 'data:'];
                 const a = document.createElement('a');
                 a.href = raw;
-                if (!allowedSchemes.includes(a.protocol)) return '';
+                if (blockedSchemes.includes(a.protocol)) return '';
                 return a.href;
             } catch {
                 return '';
