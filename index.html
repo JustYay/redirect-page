@@ -1,399 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
-    <!-- Safari полноэкранный режим -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Redirect">
-    
-    <!-- Дополнительные мета-теги для полноэкранного режима -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#6366f1">
-    
-    <title>Redirect Page</title>
-    <style>
-        /* Импорт современного шрифта */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-        :root {
-            /* Современная фиолетовая цветовая палитра */
-            --primary-color: #6366f1;
-            --primary-hover: #4f46e5;
-            --primary-light: #a5b4fc;
-            --secondary-color: #ec4899;
-            --accent-color: #06b6d4;
-            
-            /* Градиенты */
-            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-            --gradient-surface: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            --gradient-card: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
-            
-            /* Светлая тема */
-            --background: #fafaff;
-            --surface: #ffffff;
-            --surface-elevated: #ffffff;
-            --border: #e5e7eb;
-            --border-light: #f3f4f6;
-            --text-primary: #111827;
-            --text-secondary: #6b7280;
-            --text-muted: #9ca3af;
-            --text-accent: var(--primary-color);
-            
-            /* Улучшенные тени */
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            
-            /* Скругления */
-            --radius: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-            
-            /* Переходы */
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .dark-theme {
-            --background: #0a0a0f;
-            --surface: #111827;
-            --surface-elevated: #1f2937;
-            --border: #374151;
-            --border-light: #4b5563;
-            --text-primary: #f9fafb;
-            --text-secondary: #d1d5db;
-            --text-muted: #9ca3af;
-            --gradient-surface: linear-gradient(135deg, #111827 0%, #1f2937 100%);
-            --gradient-card: linear-gradient(145deg, #1f2937 0%, #111827 100%);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Базовые стили для полноэкранного Safari */
-        html {
-            height: 100%;
-            height: 100vh;
-            height: calc(var(--vh, 1vh) * 100); /* Используем реальную высоту экрана */
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            /* Поддержка safe-area для полноэкранного режима */
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--background);
-            color: var(--text-primary);
-            height: 100%;
-            height: 100vh;
-            height: calc(var(--vh, 1vh) * 100); /* Используем реальную высоту экрана */
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-            position: relative;
-            /* Убираем overflow hidden для полноэкранного режима */
-            overflow: auto;
-        }
-
-        /* Анимированный фон покрывающий весь экран включая safe-area */
-        body::before {
-            content: '';
-            position: fixed;
-            top: calc(-1 * env(safe-area-inset-top, 0px));
-            left: calc(-1 * env(safe-area-inset-left, 0px));
-            right: calc(-1 * env(safe-area-inset-right, 0px));
-            bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
-            width: calc(100vw + env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px));
-            height: calc(var(--vh, 1vh) * 100 + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
-            background: var(--gradient-primary);
-            opacity: 0.03;
-            z-index: -2;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            top: calc(-1 * env(safe-area-inset-top, 0px));
-            left: calc(-1 * env(safe-area-inset-left, 0px));
-            right: calc(-1 * env(safe-area-inset-right, 0px));
-            bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
-            width: calc(100vw + env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px));
-            height: calc(var(--vh, 1vh) * 100 + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
-            background: 
-                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(236, 72, 153, 0.03) 0%, transparent 50%);
-            z-index: -1;
-            animation: subtleFloat 30s ease-in-out infinite;
-        }
-
-        @keyframes subtleFloat {
-            0%, 100% { 
-                transform: translate(0, 0) scale(1);
-                filter: hue-rotate(0deg);
-            }
-            25% { 
-                transform: translate(-5px, -2px) scale(1.01);
-                filter: hue-rotate(15deg);
-            }
-            50% { 
-                transform: translate(3px, -5px) scale(0.99);
-                filter: hue-rotate(30deg);
-            }
-            75% { 
-                transform: translate(5px, 2px) scale(1.005);
-                filter: hue-rotate(45deg);
-            }
-        }
-
-        .container {
-            background: var(--gradient-card);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-xl);
-            padding: 3rem;
-            box-shadow: var(--shadow-xl);
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-            transition: var(--transition);
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: var(--gradient-primary);
-            border-radius: var(--radius-xl);
-            z-index: -1;
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .container:hover::before {
-            opacity: 0.1;
-        }
-
-        .container:hover {
-            transform: translateY(-4px);
-            box-shadow: 
-                var(--shadow-xl),
-                0 0 40px rgba(99, 102, 241, 0.2);
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
-        }
-
-        .redirect-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            text-decoration: none;
-            color: white;
-            background: var(--gradient-primary);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            min-width: 280px;
-        }
-
-        .redirect-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: var(--transition);
-        }
-
-        .redirect-button:hover::before {
-            left: 100%;
-        }
-
-        .redirect-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 
-                var(--shadow-xl),
-                0 0 30px rgba(99, 102, 241, 0.4);
-        }
-
-        .redirect-button:active {
-            transform: translateY(-1px);
-        }
-
-        .instructions {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-top: 2rem;
-            line-height: 1.6;
-            white-space: pre-line;
-        }
-
-        .loading-indicator {
-            margin-top: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-
-        .spinner {
-            width: 16px;
-            height: 16px;
-            border: 2px solid var(--border);
-            border-top: 2px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .countdown {
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .container {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
-            }
-
-            .logo {
-                font-size: 1.75rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .redirect-button {
-                font-size: 1rem;
-                padding: 0.875rem 1.5rem;
-                min-width: 240px;
-            }
-
-            .instructions {
-                font-size: 0.8rem;
-                margin-top: 1.5rem;
-            }
-        }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Принудительный полноэкранный режим для Safari
-            function setFullscreen() {
-                // Устанавливаем высоту равную высоте экрана
-                const vh = window.innerHeight * 0.01;
-                document.documentElement.style.setProperty('--vh', `${vh}px`);
-                
-                // Обновляем при изменении размера окна
-                window.addEventListener('resize', () => {
-                    const vh = window.innerHeight * 0.01;
-                    document.documentElement.style.setProperty('--vh', `${vh}px`);
-                });
-                
-                // Принудительно скрываем адресную строку Safari
-                window.scrollTo(0, 1);
-                setTimeout(() => {
-                    window.scrollTo(0, 0);
-                }, 100);
-            }
-            
-            setFullscreen();
-            
-            // Определяем тему
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark-theme');
-            }
-
-            const currentURL = window.location.href;
-            let redirectTo = decodeURIComponent(currentURL.split('redirect_to=')[1] || '');
-
-            const logoText = '🚀 Перенаправление';
-            const buttonText = 'Нажмите для продолжения';
-            const instructionsText = 'Автоматическое перенаправление через {seconds} секунд.\nЕсли этого не произошло, нажмите на кнопку выше.';
-
-            document.getElementById('logo').innerText = logoText;
-            document.getElementById('redirectLink').innerText = buttonText;
-            document.getElementById('redirectLink').href = redirectTo;
-
-            if (redirectTo) {
-                let countdown = 5;
-                const updateInstructions = () => {
-                    document.getElementById('instructions').innerText = 
-                        instructionsText.replace('{seconds}', countdown);
-                    document.getElementById('countdown').innerText = countdown;
-                };
-
-                updateInstructions();
-
-                const timer = setInterval(() => {
-                    countdown--;
-                    updateInstructions();
-                    
-                    if (countdown <= 0) {
-                        clearInterval(timer);
-                        window.location.href = redirectTo;
-                    }
-                }, 1000);
-            } else {
-                document.getElementById('instructions').innerText = 'Не указана ссылка для перенаправления.';
-                document.querySelector('.loading-indicator').style.display = 'none';
-            }
-        });
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#16a34a" id="themeColor">
+    <title>Открываем ссылку…</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Montserrat font + общие стили проекта -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://speedtest.incdev.net/styles/variables.css?100">
+    <link rel="stylesheet" href="https://speedtest.incdev.net/styles/base.css?100">
+    <link rel="stylesheet" href="https://speedtest.incdev.net/styles/components.css?100">
+    <link rel="stylesheet" href="https://speedtest.incdev.net/styles/responsive.css?100">
 </head>
 <body>
-    <div class="container">
-        <div id="logo" class="logo">🚀 Перенаправление</div>
-        <a id="redirectLink" class="redirect-button" href="#" target="_blank">
-            Нажмите для продолжения
-        </a>
-        <div class="loading-indicator">
-            <div class="spinner"></div>
-            <span>Перенаправление через <span id="countdown" class="countdown">5</span> секунд...</span>
-        </div>
-        <p id="instructions" class="instructions">Автоматическое перенаправление через 5 секунд.
-Если этого не произошло, нажмите на кнопку выше.</p>
+    <!-- Лоадер в стиле основного приложения -->
+    <div id="appLoader" class="loading-overlay" role="status" aria-live="polite" aria-busy="true">
+        <div class="loader-spinner" aria-hidden="true"></div>
     </div>
+    <div class="container" style="display:flex;align-items:center;justify-content:center;min-height:100vh;">
+        <main id="mainContent" style="width:100%;max-width:680px;">
+            <section class="platform-screen" style="max-width:680px;width:100%;">
+                <div class="platform-card card" style="animation: fadeIn .25s ease-out;">
+                    <div class="card-content" style="text-align:center;">
+                        <div class="steps-hint" role="note" aria-label="Redirect info" style="margin-bottom:0;">
+                            <div class="steps-inline" style="gap:10px;">
+                                <div class="step-inline-item"><span class="step-badge">1</span><span>Открываем ссылку…</span></div>
+                                <div class="step-inline-item"><span class="step-badge">2</span><span>Если не открылось — нажмите кнопку</span></div>
+                            </div>
+                        </div>
+                        <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                            <button id="openBtn" class="btn btn-primary"><span>Открыть ссылку</span></button>
+                            <button id="backBtn" class="btn"><span>Назад</span></button>
+                        </div>
+                        <div class="loading-indicator" style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--text-muted);font-size:14px;">
+                            <div class="spinner" style="width:14px;height:14px;border:2px solid var(--border);border-top:2px solid var(--primary-color);border-radius:50%;animation: spin .9s linear infinite;"></div>
+                            <span>Перенаправление через <span id="countdown" style="color:var(--primary-color);font-weight:800;">5</span> сек…</span>
+                        </div>
+                        <p id="instructions" style="margin-top:10px;color:var(--text-secondary);white-space:pre-line;">Автоматическое открытие через 5 секунд.\nЕсли этого не произошло, нажмите «Открыть ссылку».</p>
+                        <p id="urlPreview" style="margin-top:10px;color:var(--text-secondary);word-break:break-all;"></p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+    (function() {
+        // Тема: auto по системной настройке для совместимости между доменами
+        applyAutoTheme();
+        setupTelegram();
+
+        const finalUrl = resolveRedirectUrl();
+        document.getElementById('urlPreview').textContent = finalUrl ? finalUrl : '';
+
+        const open = () => safeOpen(finalUrl);
+        document.getElementById('openBtn').addEventListener('click', open);
+        document.getElementById('backBtn').addEventListener('click', () => {
+            try { history.length > 1 ? history.back() : window.close(); } catch { window.close(); }
+        });
+
+        // Показываем страницу сразу, без перекрытия лоадером
+        requestAnimationFrame(hideLoader);
+
+        // 5-секундный таймер редиректа с обновлением текста
+        if (finalUrl) {
+            let countdown = 5;
+            const countdownEl = document.getElementById('countdown');
+            const instructionsEl = document.getElementById('instructions');
+            const update = () => {
+                if (countdownEl) countdownEl.textContent = String(countdown);
+                if (instructionsEl) instructionsEl.textContent = `Автоматическое открытие через ${countdown} секунд.\nЕсли этого не произошло, нажмите «Открыть ссылку».`;
+            };
+            update();
+            const timer = setInterval(() => {
+                countdown -= 1;
+                update();
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    open();
+                }
+            }, 1000);
+        } else {
+            const instructionsEl = document.getElementById('instructions');
+            if (instructionsEl) instructionsEl.textContent = 'Не указана ссылка для перенаправления.';
+            const li = document.querySelector('.loading-indicator');
+            if (li) li.style.display = 'none';
+        }
+
+        function applyAutoTheme() {
+            const html = document.documentElement;
+            const meta = document.getElementById('themeColor');
+            const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            html.classList.toggle('dark-theme', isDark);
+            try { meta.setAttribute('content', isDark ? '#0f172a' : '#16a34a'); } catch {}
+        }
+
+        function setupTelegram() {
+            try {
+                if (window.Telegram && Telegram.WebApp) {
+                    Telegram.WebApp.ready();
+                    Telegram.WebApp.expand();
+                    Telegram.WebApp.onEvent('viewportChanged', () => {
+                        try { Telegram.WebApp.expand(); } catch {}
+                    });
+                    try { Telegram.WebApp.setHeaderColor('secondary'); } catch {}
+                    try {
+                        const isDark = document.documentElement.classList.contains('dark-theme');
+                        Telegram.WebApp.setBackgroundColor(isDark ? '#0f172a' : '#ffffff');
+                    } catch {}
+                }
+            } catch {}
+        }
+
+        function resolveRedirectUrl() {
+            try {
+                const params = new URLSearchParams(location.search);
+                let raw = params.get('redirect_to') || '';
+                if (!raw) return '';
+                // Попытка декадирования: URL-encoding -> base64 (опционально)
+                try { raw = decodeURIComponent(raw); } catch {}
+                if (/^[A-Za-z0-9+/=]+$/.test(raw) && raw.length % 4 === 0) {
+                    try { raw = atob(raw); } catch {}
+                }
+                // Безопасные схемы
+                const allowedSchemes = ['https:', 'http:', 'itms-apps:', 'itms-appss:', 'market:', 'intent:'];
+                const a = document.createElement('a');
+                a.href = raw;
+                if (!allowedSchemes.includes(a.protocol)) return '';
+                return a.href;
+            } catch {
+                return '';
+            }
+        }
+
+        function safeOpen(url) {
+            if (!url) return;
+            // Сначала пробуем Telegram API (лучший вариант внутри WebApp)
+            try {
+                if (window.Telegram && Telegram.WebApp) {
+                    Telegram.WebApp.openLink(url, { try_instant_view: false });
+                    return;
+                }
+            } catch {}
+            // Фолбэк: window.open, затем прямой переход
+            try {
+                const w = window.open(url, '_blank', 'noopener,noreferrer');
+                if (w) return;
+            } catch {}
+            try { location.href = url; } catch {}
+        }
+
+        function hideLoader() {
+            const el = document.getElementById('appLoader');
+            if (el) {
+                el.classList.add('hidden');
+                el.setAttribute('aria-busy', 'false');
+            }
+        }
+    })();
+    </script>
 </body>
 </html>
+
+
