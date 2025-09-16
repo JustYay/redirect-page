@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#16a34a" id="themeColor">
     <title>Открываем ссылку…</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -14,13 +14,28 @@
     <link rel="stylesheet" href="https://speedtest.incdev.net/styles/base.css?100">
     <link rel="stylesheet" href="https://speedtest.incdev.net/styles/components.css?100">
     <link rel="stylesheet" href="https://speedtest.incdev.net/styles/responsive.css?100">
+    <style>
+        /* Узкие экраны (iPhone SE и подобные) */
+        @media (max-width: 360px) {
+            .platform-card { padding: 16px !important; }
+            .card-content { padding: 14px !important; }
+            .steps-hint { padding: 8px 10px !important; }
+            .steps-inline { gap: 6px !important; font-size: 13px; }
+            .step-badge { width: 20px; height: 20px; font-size: 11px; }
+            .btn { padding: 10px 12px; font-size: 13px; }
+        }
+        /* Безопасные области (верх/низ) и динамическая высота */
+        .redirect-shell { min-height: 100dvh; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+        .steps-inline { flex-wrap: wrap; max-width: 100%; }
+        .step-inline-item { max-width: 100%; }
+    </style>
 </head>
 <body>
     <!-- Лоадер в стиле основного приложения -->
     <div id="appLoader" class="loading-overlay" role="status" aria-live="polite" aria-busy="true">
         <div class="loader-spinner" aria-hidden="true"></div>
     </div>
-    <div class="container" style="display:flex;align-items:center;justify-content:center;min-height:100vh;">
+    <div class="container redirect-shell" style="display:flex;align-items:center;justify-content:center;">
         <main id="mainContent" style="width:100%;max-width:680px;">
             <section class="platform-screen" style="max-width:680px;width:100%;">
                 <div class="platform-card card" style="animation: fadeIn .25s ease-out;">
