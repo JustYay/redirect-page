@@ -48,7 +48,6 @@
                         </div>
                         <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
                             <button id="openBtn" class="btn btn-primary"><span>Открыть ссылку</span></button>
-                            <button id="backBtn" class="btn"><span>Назад</span></button>
                             <button id="supportBtn" class="btn"><span>Поддержка</span></button>
                         </div>
                         <div class="loading-indicator" style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--text-muted);font-size:14px;">
@@ -71,9 +70,6 @@
 
         const open = () => safeOpen(finalUrl);
         document.getElementById('openBtn').addEventListener('click', open);
-        document.getElementById('backBtn').addEventListener('click', () => {
-            try { history.length > 1 ? history.back() : window.close(); } catch { window.close(); }
-        });
         document.getElementById('supportBtn').addEventListener('click', () => {
             const url = 'https://t.me/incvpn_support';
             try {
