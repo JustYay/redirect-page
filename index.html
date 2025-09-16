@@ -34,12 +34,13 @@
                         <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
                             <button id="openBtn" class="btn btn-primary"><span>Открыть ссылку</span></button>
                             <button id="backBtn" class="btn"><span>Назад</span></button>
+                            <button id="supportBtn" class="btn"><span>Поддержка</span></button>
                         </div>
                         <div class="loading-indicator" style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--text-muted);font-size:14px;">
                             <div class="spinner" style="width:14px;height:14px;border:2px solid var(--border);border-top:2px solid var(--primary-color);border-radius:50%;animation: spin .9s linear infinite;"></div>
-                            <span>Перенаправление через <span id="countdown" style="color:var(--primary-color);font-weight:800;">5</span> сек…</span>
+                            <span>Автоматическое перенаправление через <span id="countdown" style="color:var(--primary-color);font-weight:800;">5</span> сек…</span>
                         </div>
-                        <p id="instructions" style="margin-top:10px;color:var(--text-secondary);white-space:pre-line;">Автоматическое открытие через 5 секунд.\nЕсли этого не произошло, нажмите «Открыть ссылку».</p>
+                        <p id="instructions" style="margin-top:10px;color:var(--text-secondary);white-space:pre-line;">Если этого не произошло, нажмите «Открыть ссылку».</p>
                     </div>
                 </div>
             </section>
@@ -58,6 +59,20 @@
         document.getElementById('openBtn').addEventListener('click', open);
         document.getElementById('backBtn').addEventListener('click', () => {
             try { history.length > 1 ? history.back() : window.close(); } catch { window.close(); }
+        });
+        document.getElementById('supportBtn').addEventListener('click', () => {
+            const url = 'https://t.me/incvpn_support';
+            try {
+                if (window.Telegram && Telegram.WebApp) {
+                    Telegram.WebApp.openLink(url, { try_instant_view: false });
+                    return;
+                }
+            } catch {}
+            try {
+                const w = window.open(url, '_blank', 'noopener,noreferrer');
+                if (w) return;
+            } catch {}
+            try { location.href = url; } catch {}
         });
 
         // Показываем страницу сразу, без перекрытия лоадером
