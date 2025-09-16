@@ -40,7 +40,6 @@
                             <div class="spinner" style="width:14px;height:14px;border:2px solid var(--border);border-top:2px solid var(--primary-color);border-radius:50%;animation: spin .9s linear infinite;"></div>
                             <span>Автоматическое перенаправление через <span id="countdown" style="color:var(--primary-color);font-weight:800;">5</span> сек…</span>
                         </div>
-                        <p id="instructions" style="margin-top:10px;color:var(--text-secondary);white-space:pre-line;">Если этого не произошло, нажмите «Открыть ссылку».</p>
                     </div>
                 </div>
             </section>
@@ -82,10 +81,8 @@
         if (finalUrl) {
             let countdown = 5;
             const countdownEl = document.getElementById('countdown');
-            const instructionsEl = document.getElementById('instructions');
             const update = () => {
                 if (countdownEl) countdownEl.textContent = String(countdown);
-                if (instructionsEl) instructionsEl.textContent = `Если этого не произошло, нажмите «Открыть ссылку».`;
             };
             update();
             const timer = setInterval(() => {
@@ -97,8 +94,6 @@
                 }
             }, 1000);
         } else {
-            const instructionsEl = document.getElementById('instructions');
-            if (instructionsEl) instructionsEl.textContent = 'Не указана ссылка для перенаправления.';
             const li = document.querySelector('.loading-indicator');
             if (li) li.style.display = 'none';
         }
