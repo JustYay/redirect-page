@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#16a34a" id="themeColor">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-title" content="Redirect">
+	<meta name="mobile-web-app-capable" content="yes">
     <title>Открываем ссылку…</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- Montserrat font + общие стили проекта -->
@@ -134,26 +138,42 @@
             } catch {}
         }
 
-        function resolveRedirectUrl() {
-            try {
-                const params = new URLSearchParams(location.search);
-                let raw = params.get('redirect_to') || '';
-                if (!raw) return '';
-                // Попытка декадирования: URL-encoding -> base64 (опционально)
-                try { raw = decodeURIComponent(raw); } catch {}
-                if (/^[A-Za-z0-9+/=]+$/.test(raw) && raw.length % 4 === 0) {
-                    try { raw = atob(raw); } catch {}
-                }
-                // Блокируем только опасные схемы; кастомные (например, happ:) допускаем
-                const blockedSchemes = ['javascript:', 'data:'];
-                const a = document.createElement('a');
-                a.href = raw;
-                if (blockedSchemes.includes(a.protocol)) return '';
-                return a.href;
-            } catch {
-                return '';
-            }
-        }
+		function resolveRedirectUrl() {
+			try {
+				// 1) Пытаемся достать из query
+				const searchParams = new URLSearchParams(location.search);
+				let raw = searchParams.get('redirect_to') || '';
+				// 2) Если пусто — проверяем hash (поддержка #redirect_to=... и #...&redirect_to=...)
+				if (!raw && location.hash) {
+					const hash = location.hash.replace(/^#/, '');
+					const hashParams = new URLSearchParams(hash.includes('?') ? hash.split('?')[1] : hash);
+					raw = hashParams.get('redirect_to') || '';
+				}
+				// 3) Последний фолбэк — регэксп по всей строке URL
+				if (!raw) {
+					const m = /[?#&]redirect_to=([^&#]+)/.exec(location.href);
+					raw = (m && m[1]) ? m[1] : '';
+				}
+
+				if (!raw) return '';
+
+				// Декодирование только URL-encoding; '+' в query трактуем как пробел
+				try { raw = decodeURIComponent(raw.replace(/\+/g, '%20')); } catch {}
+
+				// Блокируем только опасные схемы; кастомные (например, happ:) допускаем
+				const blockedSchemes = ['javascript:', 'data:'];
+				const a = document.createElement('a');
+				a.href = raw;
+				if (blockedSchemes.includes(a.protocol)) return '';
+				// Для кастомных схем возвращаем исходную строку, чтобы не полагаться на нормализацию браузера
+				if (!a.protocol || (a.protocol && a.protocol.endsWith(':') && !/^https?:|^mailto:|^tel:/.test(a.protocol))) {
+					return raw;
+				}
+				return a.href;
+			} catch {
+				return '';
+			}
+		}
 
         function safeOpen(url) {
             if (!url) return;
