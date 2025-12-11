@@ -51,7 +51,7 @@
                         </div>
                         <div class="loading-indicator" style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--text-muted);font-size:14px;">
                             <div class="spinner" style="width:14px;height:14px;border:2px solid var(--border);border-top:2px solid var(--primary-color);border-radius:50%;animation: spin .9s linear infinite;"></div>
-                            <span>Автоматическое перенаправление через <span id="countdown" style="color:var(--primary-color);font-weight:800;">5</span> сек…</span>
+                            <span>Автоматическое перенаправление через <span id="countdown" style="color:var(--primary-color);font-weight:800;">3</span> сек…</span>
                         </div>
 					<p id="instructions" style="margin-top:10px;color:var(--text-secondary);white-space:pre-line;">Если этого не произошло, нажмите «Открыть ссылку».</p>
                     </div>
@@ -98,7 +98,7 @@
 		}
 
 		if (redirectTo) {
-			let countdown = 5;
+			let countdown = 3;
 			const update = () => {
 				if (countdownEl) countdownEl.textContent = String(countdown);
 				if (instructionsEl) instructionsEl.textContent = instructionsText.replace('{seconds}', countdown);
